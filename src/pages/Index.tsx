@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Card } from '@/components/ui/card';
 import { Volume2, Play, Square } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
 
 // Declare ResponsiveVoice global
 declare global {
@@ -19,38 +15,25 @@ declare global {
 const Index = () => {
   const [text, setText] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
-  const { toast } = useToast();
 
   const handleSpeak = () => {
     if (!text.trim()) {
-      toast({
-        title: "Please enter some text",
-        description: "Type something you want to hear pronounced.",
-        variant: "destructive"
-      });
+      alert("Please enter some text to pronounce.");
       return;
     }
 
     if (!window.responsiveVoice) {
-      toast({
-        title: "Speech service not available",
-        description: "Please refresh the page and try again.",
-        variant: "destructive"
-      });
+      alert("Speech service not available. Please refresh the page.");
       return;
     }
 
     setIsPlaying(true);
-    
+
     window.responsiveVoice.speak(text, "UK English Female", {
       onend: () => setIsPlaying(false),
       onerror: () => {
         setIsPlaying(false);
-        toast({
-          title: "Speech failed",
-          description: "There was an error playing the speech.",
-          variant: "destructive"
-        });
+        alert("There was an error playing the speech.");
       }
     });
   };
@@ -63,62 +46,59 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/20 flex items-center justify-center p-4">
-      <Card className="w-full max-w-2xl p-8 shadow-soft border-0 bg-card/80 backdrop-blur-sm">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 flex items-center justify-center p-4">
+      <div className="w-full max-w-2xl p-8 rounded-2xl shadow-lg border border-gray-700 bg-gray-800/90 backdrop-blur-sm">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <Volume2 className="h-8 w-8 text-primary" />
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+            <Volume2 className="h-8 w-8 text-blue-400" />
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
               Text to Speech
             </h1>
           </div>
-          <p className="text-muted-foreground text-lg">
-            Simple pronunciation helper - Type text and hear it spoken aloud
+          <p className="text-gray-300 text-lg">
+            Type text and hear it spoken aloud
           </p>
         </div>
 
         <div className="space-y-6">
           <div className="space-y-2">
-            <label htmlFor="text-input" className="text-sm font-medium text-foreground">
+            <label htmlFor="text-input" className="text-sm font-medium text-gray-200">
               Enter text to pronounce:
             </label>
-            <Textarea
+            <textarea
               id="text-input"
               placeholder="Type your text here... For example: Hello, how are you today?"
               value={text}
               onChange={(e) => setText(e.target.value)}
-              className="min-h-32 text-lg resize-none border-2 focus:border-primary transition-colors"
+              className="w-full min-h-32 p-3 rounded-md text-lg resize-none border-2 border-gray-600 focus:border-blue-400 focus:ring focus:ring-blue-400/40 bg-gray-900 text-gray-100 transition-colors"
             />
           </div>
 
           <div className="flex gap-4 justify-center">
             {!isPlaying ? (
-              <Button 
+              <button
                 onClick={handleSpeak}
-                size="lg"
-                className="bg-gradient-to-r from-primary to-accent hover:shadow-glow transition-all duration-300 min-w-32"
+                className="flex items-center justify-center gap-2 px-6 py-3 rounded-md text-white font-semibold bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg hover:shadow-blue-500/40 transition-all duration-300 min-w-32"
               >
-                <Play className="h-5 w-5 mr-2" />
+                <Play className="h-5 w-5" />
                 Speak
-              </Button>
+              </button>
             ) : (
-              <Button 
+              <button
                 onClick={handleStop}
-                size="lg"
-                variant="destructive"
-                className="min-w-32"
+                className="flex items-center justify-center gap-2 px-6 py-3 rounded-md text-white font-semibold bg-red-600 hover:bg-red-700 transition-all duration-300 min-w-32"
               >
-                <Square className="h-5 w-5 mr-2" />
+                <Square className="h-5 w-5" />
                 Stop
-              </Button>
+              </button>
             )}
           </div>
 
-          <div className="text-center text-sm text-muted-foreground">
+          <div className="text-center text-sm text-gray-400">
             <p>Using UK English Female voice • Powered by ResponsiveVoice</p>
           </div>
         </div>
-      </Card>
+      </div>
     </div>
   );
 };
