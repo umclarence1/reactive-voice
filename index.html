@@ -6,9 +6,6 @@
     <title>Text to Speech - Pronunciation Helper</title>
     <meta name="description" content="Simple text-to-speech pronunciation system" />
    
-
- 
-
    
     <link rel="icon" type="image/png" href="https://ttsfree.com/images/speech-to-text-apps.jpg" />
   </head>
@@ -17,5 +14,31 @@
     <div id="root"></div>
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=onkw3Kz7"></script>
     <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <script>
+function getSelectionText() {
+  var text = "";
+  if (window.getSelection) {
+      text = window.getSelection().toString();
+  } else if (document.selection && document.selection.type != "Control") {
+      text = document.selection.createRange().text;
+  }
+  return text; 
+}
+
+document.addEventListener("mouseup", function () {
+  setTimeout(function () {
+    const selectedText = getSelectionText();
+    if (selectedText) {
+      responsiveVoice.cancel(); // stop current speech
+      responsiveVoice.speak(selectedText); // speak the highlighted text
+    }
+  }, 1);
+});
+</script>
+
+<script>
+setTimeout(responsiveVoice.speak("Welcome to the Responsive Voice website"),1500);
+</script>
+
+ </body>
 </html>
