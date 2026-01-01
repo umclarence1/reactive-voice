@@ -7,7 +7,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/select";
-import { Slider } from "@/components/slider";
 
 // Declare ResponsiveVoice global
 declare global {
@@ -302,7 +301,7 @@ const Index = () => {
 
         {/* Footer */}
         <div className="text-center text-sm text-gray-400 mt-8">
-          <p>Using {selectedVoice} • Powered by ResponsiveVoice API</p>
+          <p>Using {selectedVoice}</p>
         </div>
       </div>
     </div>
